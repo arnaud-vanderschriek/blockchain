@@ -1,36 +1,24 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
+﻿using blockchain;
+using System;
 
-public class Block
+class Program
 {
-    public int Index { get; set; }
-    public DateTime Timestamp { get; set; }
-    public string PreviousHash { get; set; }
-    public string Hash { get; set; }
-    public string Data { get; set; }
-
-    public Block(int index, string previousHash, string data)
+    static void Main(string[] args)
     {
-        Index = index;
-        Timestamp = DateTime.Now;
-        PreviousHash = previousHash;
-        Data = data;
-        Hash = CalculateHash();
-    }
+        Blockchain blockchain = new Blockchain();
+        int difficulty = 2;
 
-    public string CalculateHash()
-    {
-        using (SHA256 sha256 = SHA256.Create())
+        Console.WriteLine("Mining block 1...");
+        blockchain.AddBlock(new Block(1, "", "Block 1 Data"), difficulty);
+
+        Console.WriteLine("Mining block 2...");
+        blockchain.AddBlock(new Block(2, "", "Block 2 Data"), difficulty);
+
+        Console.WriteLine("Is blockchain valid? " + blockchain.IsChainValid());
+
+        foreach (var block in blockchain.Chain)
         {
-            string rawData = Index.ToString() + Timestamp + PreviousHash + Data;
-            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawData));
-            StringBuilder builder = new StringBuilder();
-            foreach (byte b in bytes)
-            {
-                builder.Append(b.ToString("x2"));
-            }
-            return builder.ToString();
+            Console.WriteLine($"Index: {block.Index}, Timestamp: {block.Timestamp}, Data: {block.Data}, Hash: {block.Hash}, PreviousHash: {block.PreviousHash}, Nonce: {block.Nonce}");
         }
     }
 }
