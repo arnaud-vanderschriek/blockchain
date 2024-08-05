@@ -23,7 +23,7 @@ public class Block
     {
         using (SHA256 sha256 = SHA256.Create())
         {
-            string rawData = Index + Timestamp + PreviousHash + Data;
+            string rawData = Index.ToString() + Timestamp + PreviousHash + Data;
             byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawData));
             StringBuilder builder = new StringBuilder();
             foreach (byte b in bytes)
