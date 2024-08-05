@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+namespace Blockchain
+{
 public class Blockchain
 {
     public List<Block> Chain { get; private set; }
@@ -46,4 +48,6 @@ public class Blockchain
         }
         return true;
     }
+}
+
 }
